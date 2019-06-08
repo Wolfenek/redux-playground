@@ -33,10 +33,17 @@ class Counter extends Component {
         <CounterControl label="Subtract 20" clicked={this.props.onSubtract5} />
         <CounterControl label="Reset" clicked={this.props.onResetCounter} />
         <hr />
-        <button onClick={this.props.onStoreResult}>Store Result</button>
+        <button
+          onClick={() => this.props.onStoreResult(this.props.storedCounter)}
+        >
+          Store Result
+        </button>
         <ul>
           {this.props.storedResults.map(result => (
-            <li key={result.id} onClick={() => this.props.onDeleteResult(result.id)}>
+            <li
+              key={result.id}
+              onClick={() => this.props.onDeleteResult(result.id)}
+            >
               {result.value}
             </li>
           ))}
@@ -50,9 +57,8 @@ class Counter extends Component {
 // If we don't pass any, the first argument of the "connect" function will be "null".
 const mapStateToProps = state => {
   return {
-    storedCounter: state.counter,
-    // below currently not used
-    storedResults: state.results
+    storedCounter: state.counterReducer.counter,
+    storedResults: state.resultsReducer.results
   };
 };
 
@@ -86,8 +92,8 @@ const mapDispatchToProps = dispatch => {
     onResetCounter: () => {
       dispatch({ type: RESET });
     },
-    onStoreResult: () => {
-      dispatch({ type: STORE_RESULT });
+    onStoreResult: singleResult => {
+      dispatch({ type: STORE_RESULT, payload: singleResult });
     },
     onDeleteResult: id => {
       dispatch({ type: DELETE_RESULT, payload: id });

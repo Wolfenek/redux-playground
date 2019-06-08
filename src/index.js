@@ -1,16 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// Method that creates a Redux Store
-import { createStore } from "redux";
+// Methods that creates a Redux Store & combine the reducers
+import { createStore, combineReducers } from "redux";
 // Package that is wrapped around the App to provide the state from the Redux Store
 import { Provider } from "react-redux";
-// Root Redcuder imported
-import reducer from "./store/reducer";
+// Import smaller reducers
+import counterReducer from "./store/reducers/counterReducer"
+import resultsReducer from "./store/reducers/resultsReducer"
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+  counterReducer,
+  resultsReducer
+})
+
+const store = createStore(rootReducer);
 
 //And we wrap the App in the Provider from react-redux
 ReactDOM.render(
