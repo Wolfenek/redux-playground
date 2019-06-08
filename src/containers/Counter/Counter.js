@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   INCREMENT,
@@ -12,46 +12,31 @@ import {
 import CounterControl from "../../components/CounterControl/CounterControl";
 import CounterOutput from "../../components/CounterOutput/CounterOutput";
 
-class Counter extends Component {
-  render() {
-    return (
-      <div>
-        {/* <CounterOutput value={this.state.counter} /> */}
-        {/* Now we don't pass the state anymore, but
-                the ctr (as props) that goes to the connect function
-            */}
-        <CounterOutput value={this.props.storedCounter} />
-        <CounterControl
-          label="Increment"
-          clicked={this.props.onIncrementCounter}
-        />
-        <CounterControl
-          label="Decrement"
-          clicked={this.props.onDecrementCounter}
-        />
-        <CounterControl label="Add 20" clicked={this.props.onAdd5} />
-        <CounterControl label="Subtract 20" clicked={this.props.onSubtract5} />
-        <CounterControl label="Reset" clicked={this.props.onResetCounter} />
-        <hr />
-        <button
-          onClick={() => this.props.onStoreResult(this.props.storedCounter)}
-        >
-          Store Result
-        </button>
-        <ul>
-          {this.props.storedResults.map(result => (
-            <li
-              key={result.id}
-              onClick={() => this.props.onDeleteResult(result.id)}
-            >
-              {result.value}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
+const Counter = props => {
+  return (
+    <div>
+      {/* <CounterOutput value={state.counter} /> */}
+      {/* Now we don't pass the state anymore, but the storedCounter (as props) that goes to the connect function */}
+      <CounterOutput value={props.storedCounter} />
+      <CounterControl label="Increment" clicked={props.onIncrementCounter} />
+      <CounterControl label="Decrement" clicked={props.onDecrementCounter} />
+      <CounterControl label="Add 20" clicked={props.odAdd} />
+      <CounterControl label="Subtract 20" clicked={props.onSubtract} />
+      <CounterControl label="Reset" clicked={props.onResetCounter} />
+      <hr />
+      <button onClick={() => props.onStoreResult(props.storedCounter)}>
+        Store Result
+      </button>
+      <ul>
+        {props.storedResults.map(result => (
+          <li key={result.id} onClick={() => props.onDeleteResult(result.id)}>
+            {result.value}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 // we define what piece os state to pass as props (this will go through the "connect" below)
 // If we don't pass any, the first argument of the "connect" function will be "null".
@@ -77,13 +62,13 @@ const mapDispatchToProps = dispatch => {
         value: 1
       });
     },
-    onAdd5: () => {
+    odAdd: () => {
       dispatch({
         type: ADD,
         value: 20
       });
     },
-    onSubtract5: () => {
+    onSubtract: () => {
       dispatch({
         type: SUBTRACT,
         value: 20
